@@ -2,7 +2,7 @@
 
 A Discord bot that monitors space weather conditions from the NOAA Space Weather Prediction Center (SWPC) and alerts your server about:
 1.  **Aurora Visibility**: High probability of auroras being visible in the Northern US (and lower latitudes).
-2.  **Severe Space Storms**: Planetary K-index reaching severe levels (Kp >= 8).
+2.  **Severe Space Storms**: Planetary K-index reaching strong levels (Kp >= 7).
 
 ## Features
 -   **Real-time Monitoring**: Checks NOAA data every 15 minutes.
