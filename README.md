@@ -17,7 +17,13 @@ A Discord bot that monitors space weather conditions from the NOAA Space Weather
 
 2.  **Clone/Download** the repository.
 
-3.  **Install Dependencies**:
+3.  **Set Up Virtual Environment**:
+    ```bash
+    python3 -m venv .venv
+    source .venv/bin/activate
+    ```
+
+4.  **Install Dependencies**:
     ```bash
     pip install -r requirements.txt
     ```
@@ -42,7 +48,7 @@ You must invite the bot to your server with the correct permissions.
 
 ### Run the Bot
 ```bash
-python3 bot.py
+python3 spaceweatherbot.py
 ```
 The bot will log in and start checking for space weather updates immediately.
 
