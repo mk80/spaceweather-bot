@@ -11,9 +11,16 @@ XRAY_URL = "https://services.swpc.noaa.gov/json/goes/primary/xrays-6-hour.json"
 def fetch_json(url):
     """Fetches JSON data from a URL."""
     try:
-        response = requests.get(url, timeout=10)
+        # User-Agent is good practice
+        headers = {
+            'User-Agent': 'SpaceWeatherBot/1.0 (Discord Bot; contact: admin@example.com)'
+        }
+        response = requests.get(url, headers=headers, timeout=10)
         response.raise_for_status()
         return response.json()
+    except json.JSONDecodeError as e:
+        print(f"Error decoding JSON from {url}: {e}")
+        return None
     except requests.RequestException as e:
         print(f"Error fetching {url}: {e}")
         return None
