@@ -8,22 +8,36 @@ K_INDEX_URL = "https://services.swpc.noaa.gov/products/noaa-planetary-k-index.js
 FORECAST_URL = "https://services.swpc.noaa.gov/products/noaa-planetary-k-index-forecast.json"
 XRAY_URL = "https://services.swpc.noaa.gov/json/goes/primary/xrays-6-hour.json"
 
-def fetch_json(url):
-    """Fetches JSON data from a URL."""
-    try:
-        # User-Agent is good practice
-        headers = {
-            'User-Agent': 'SpaceWeatherBot/1.0 (Discord Bot; contact: admin@example.com)'
-        }
-        response = requests.get(url, headers=headers, timeout=10)
-        response.raise_for_status()
-        return response.json()
-    except json.JSONDecodeError as e:
-        print(f"Error decoding JSON from {url}: {e}")
-        return None
-    except requests.RequestException as e:
-        print(f"Error fetching {url}: {e}")
-        return None
+import time
+
+def fetch_json(url, retries=3, backoff_factor=1):
+    """Fetches JSON data from a URL with retries."""
+    for i in range(retries):
+        try:
+            # User-Agent is good practice
+            headers = {
+                'User-Agent': 'SpaceWeatherBot/1.0 (Discord Bot; contact: admin@example.com)'
+            }
+            response = requests.get(url, headers=headers, timeout=10)
+            response.raise_for_status()
+            return response.json()
+        except json.JSONDecodeError as e:
+            if i < retries - 1:
+                sleep_time = backoff_factor * (2 ** i)
+                print(f"JSON Decode Error from {url}: {e}. Retrying in {sleep_time}s...")
+                time.sleep(sleep_time)
+            else:
+                print(f"Failed to decode JSON from {url} after {retries} attempts: {e}")
+                return None
+        except requests.RequestException as e:
+            if i < retries - 1:
+                sleep_time = backoff_factor * (2 ** i)
+                print(f"Request Error fetching {url}: {e}. Retrying in {sleep_time}s...")
+                time.sleep(sleep_time)
+            else:
+                print(f"Failed to fetch {url} after {retries} attempts: {e}")
+                return None
+    return None
 
 def get_aurora_data():
     """Fetches the latest aurora forecast."""
