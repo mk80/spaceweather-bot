@@ -1,0 +1,16 @@
+[Unit]
+Description=SpaceWeather Discord Bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=michael
+Group=michael
+WorkingDirectory=/home/michael/Documents/spaceweather-bot
+ExecStart=/home/michael/Documents/spaceweather-bot/.venv/bin/python /home/michael/Documents/spaceweather-bot/spaceweatherbot.py
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
