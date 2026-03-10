@@ -59,6 +59,28 @@ python3 manual_test_alert.py
 ```
 This will send a simulated "Severe Validator Alert" to your `#general` channel.
 
+### Running as a Systemd Service (Linux)
+
+You can configure the bot to run automatically in the background as a systemd service.
+
+1. **Create a symbolic link** to the service file:
+   ```bash
+   sudo ln -s /home/michael/Documents/spaceweather-bot/service/spaceweather-bot.service /etc/systemd/system/
+   ```
+2. **Reload systemd** to recognize the new service:
+   ```bash
+   sudo systemctl daemon-reload
+   ```
+3. **Enable and start the service** so it runs immediately and on boot:
+   ```bash
+   sudo systemctl enable --now spaceweather-bot.service
+   ```
+4. **View the bot's status and logs**:
+   ```bash
+   sudo systemctl status spaceweather-bot.service
+   journalctl -u spaceweather-bot.service -f
+   ```
+
 ## Data Sources
 -   [NOAA Planetary K-index](https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json)
 -   [NOAA OVATION Aurora Forecast](https://services.swpc.noaa.gov/json/ovation_aurora_latest.json)
